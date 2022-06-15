@@ -1,0 +1,7 @@
+SOURCE_URL=https://github.com/mikecao/umami/archive/refs/tags/v1.32.0.tar.gz
+SOURCE_SUM=3f940896e707370f9c5b26467cd022a6f1e5673a999172a95a5494e3da2a75ae
+SOURCE_SUM_PRG=sha256sum
+SOURCE_FORMAT=tar.gz
+SOURCE_IN_SUBDIR=true
+SOURCE_FILENAME=
+SOURCE_EXTRACT=true
