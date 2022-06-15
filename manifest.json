@@ -4,7 +4,7 @@
     "packaging_format": 1,
     "description": {
         "en": "Simple, fast, privacy-focused alternative to Google Analytics",
-        "fr": "Alternative simple, rapide et axée sur la confidentialité à Google Analytics"
+        "fr": "Alternative rapide et axée sur la confidentialité à Google Analytics"
     },
     "version": "1.32.0~ynh1",
     "url": "https://umami.is/",
