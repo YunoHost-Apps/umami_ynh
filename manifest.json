@@ -4,7 +4,7 @@
     "packaging_format": 1,
     "description": {
         "en": "Simple, fast, privacy-focused alternative to Google Analytics",
-        "fr": "Alternative rapide et axée sur la confidentialité à Google Analytics"
+        "fr": "Analyse de trafic web simple et respectueux"
     },
     "version": "1.32.1~ynh1",
     "url": "https://umami.is/",
@@ -17,7 +17,7 @@
     },
     "license": "MIT",
     "maintainer": {
-        "name": "",
+        "name": "eric_G",
         "email": ""
     },
     "requirements": {
