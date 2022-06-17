@@ -37,7 +37,7 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 
 ## Captures d'écran
 
-![Capture d'écran de Umami](./doc/screenshots/about-screenshot.png)
+![Capture d'écran de Umami](./doc/screenshots/dark.gif)
 
 ## Avertissements / informations importantes
 
