@@ -8,9 +8,8 @@ User=__APP__
 Group=__APP__
 WorkingDirectory=__FINALPATH__/
 Environment=NODE_ENV=production
-Environment=PORT=__PORT__
 Environment="__YNH_NODE_LOAD_PATH__"
-ExecStart=__YNH_NPM__ run start
+ExecStart=__YNH_NPM__ run start-env
 
 [Install]
 WantedBy=multi-user.target
