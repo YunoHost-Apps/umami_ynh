@@ -129,10 +129,10 @@ ynh_script_progression --message="Configuring the app..." --weight=15
 
 pushd $final_path
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install
+	ynh_psql_connect_as --user="$db_name" --password="$db_pwd" --database="$db_name" < $final_path/sql/schema.postgresql.sql
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm run build
 popd
 
-ynh_psql_connect_as --user="$db_name" --password="$db_pwd" --database="$db_name" < $final_path/sql/schema.postgresql.sql
 
 #=================================================
 # SETUP SYSTEMD
