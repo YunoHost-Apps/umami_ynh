@@ -50,6 +50,23 @@ ynh_script_progression --message="Stopping a systemd service..." --weight=1
 
 ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
 
+# ENSURE DOWNWARD COMPATIBILITY
+#=================================================
+ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
+
+# Cleaning legacy permissions
+if ynh_legacy_permissions_exists; then
+	ynh_legacy_permissions_delete_all
+
+	ynh_app_setting_delete --app=$app --key=is_public
+fi
+
+# Create a permission if needed
+if ! ynh_permission_exists --permission="api"; then
+	ynh_permission_create --permission="api" --url="/api" --allowed="visitors" --show_tile="false" --protected="true"
+fi
+
+
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
