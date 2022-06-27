@@ -27,7 +27,6 @@ ynh_abort_if_errors
 domain=$YNH_APP_ARG_DOMAIN
 path_url="/"
 is_public=$YNH_APP_ARG_IS_PUBLIC
-salt=$(ynh_string_random --length=16)
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -72,6 +71,9 @@ ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 ynh_use_nodejs
 
+# Install Yarn
+ynh_install_extra_app_dependencies --repo="deb https://dl.yarnpkg.com/debian/ stable main" --package="yarn" --key="https://dl.yarnpkg.com/debian/pubkey.gpg"
+
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
@@ -81,9 +83,9 @@ ynh_script_progression --message="Configuring system user..." --weight=1
 ynh_system_user_create --username=$app --home_dir="$final_path"
 
 #=================================================
-# CREATE A POSTGRESQL DATABASE
+# CREATE A DATABASE
 #=================================================
-ynh_script_progression --message="Creating a PostgreSQL database..." --weight=2
+ynh_script_progression --message="Creating a database..." --weight=2
 
 db_name=$(ynh_sanitize_dbid --db_name=$app)
 db_user=$db_name
@@ -119,8 +121,8 @@ ynh_script_progression --message="Adding a configuration file..." --weight=1
 
 ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
 
-#chmod 650 "$final_path/.env"
-#chown $app:$app "$final_path/.env"
+chmod 650 "$final_path/.env"
+chown $app:$app "$final_path/.env"
 
 #=================================================
 # CONFIGURE THE APP
@@ -128,11 +130,10 @@ ynh_add_config --template="../conf/.env" --destination="$final_path/.env"
 ynh_script_progression --message="Configuring the app..." --weight=15
 
 pushd $final_path
-	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm install
-	ynh_psql_connect_as --user="$db_name" --password="$db_pwd" --database="$db_name" < $final_path/sql/schema.postgresql.sql
-	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH $ynh_npm run build
+	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
+	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn build
+	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn update-db
 popd
-
 
 #=================================================
 # SETUP SYSTEMD
