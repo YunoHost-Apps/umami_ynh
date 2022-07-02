@@ -15,7 +15,7 @@
 		setup_public=1
 		upgrade=1
 		# 1.32.1~ynh1
-		#upgrade=1	from_commit=267cb1aced761924cca8a2608be3a1b9bd14605c
+		upgrade=1	from_commit=267cb1aced761924cca8a2608be3a1b9bd14605c
 		backup_restore=1
 		multi_instance=1
 		change_url=1
