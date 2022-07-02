@@ -120,8 +120,9 @@ ynh_script_progression --message="Configuring the app..." --weight=15
 pushd $final_path
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn build
-	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn update-db
 	prisma migrate resolve --applied "20210320112717_init"
+	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn update-db
+
 popd
 
 #=================================================
