@@ -130,7 +130,7 @@ chown $app:$app "$final_path/.env"
 ynh_script_progression --message="Configuring the app..." --weight=15
 
 pushd $final_path
-	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
+	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install --production
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn build
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn update-db
 popd
