@@ -6,7 +6,7 @@
         "en": "Simple, fast, privacy-focused alternative to Google Analytics",
         "fr": "Analyse de trafic web simple et respectueux"
     },
-    "version": "1.37.0~ynh1",
+    "version": "1.39.1~ynh1",
     "url": "https://umami.is/",
     "upstream": {
         "license": "MIT",
