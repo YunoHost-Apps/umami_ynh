@@ -1,5 +1,5 @@
-SOURCE_URL=https://github.com/mikecao/umami/archive/refs/tags/v1.39.1.tar.gz
-SOURCE_SUM=48b7bb70a76cf70e8c534e338d22a09862a98cee0cc74d5774e6eaf5e339f4f1
+SOURCE_URL=https://github.com/mikecao/umami/archive/refs/tags/v1.39.2.tar.gz
+SOURCE_SUM=173a9e1131719c6f7db83dd327f089dbef48463b4a03c18bcd6602d2be1fd968
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
