@@ -5,15 +5,15 @@ It shall NOT be edited by hand.
 
 # Umami pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/umami.svg)](https://dash.yunohost.org/appci/app/umami) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/umami.svg)](https://dash.yunohost.org/appci/app/umami) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
 [![Installer Umami avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=umami)
 
 *[Read this readme in english.](./README.md)*
 
-> *Ce package vous permet d'installer Umami rapidement et simplement sur un serveur YunoHost.
-Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
+> *Ce package vous permet d’installer Umami rapidement et simplement sur un serveur YunoHost.
+Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l’installer et en profiter.*
 
-## Vue d'ensemble
+## Vue d’ensemble
 
 Umami is a simple, easy to use, self-hosted web analytics solution. The goal is to provide you with a friendlier, privacy-focused alternative to Google Analytics and a free, open-sourced alternative to paid solutions. Umami collects only the metrics you care about and everything fits on a single page. 
 
@@ -31,13 +31,13 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 - Open-source
 
 
-**Version incluse :** 1.39.5~ynh1
+**Version incluse :** 1.40.0~ynh1
 
 **Démo :** https://app.umami.is/share/8rmHaheU/umami.is
 
-## Captures d'écran
+## Captures d’écran
 
-![Capture d'écran de Umami](./doc/screenshots/dark.gif)
+![Capture d’écran de Umami](./doc/screenshots/dark.gif)
 
 ## Avertissements / informations importantes
 
@@ -48,9 +48,9 @@ Your Umami installation will create a default administrator account with the use
 The first thing you will want to do is log in and change your password.
 ## Documentations et ressources
 
-* Site officiel de l'app : <https://umami.is/>
-* Documentation officielle de l'admin : <https://umami.is/docs/about>
-* Dépôt de code officiel de l'app : <https://github.com/mikecao/umami>
+* Site officiel de l’app : <https://umami.is/>
+* Documentation officielle de l’admin : <https://umami.is/docs/about>
+* Dépôt de code officiel de l’app : <https://github.com/mikecao/umami>
 * Documentation YunoHost pour cette app : <https://yunohost.org/app_umami>
 * Signaler un bug : <https://github.com/YunoHost-Apps/umami_ynh/issues>
 
@@ -66,4 +66,4 @@ ou
 sudo yunohost app upgrade umami -u https://github.com/YunoHost-Apps/umami_ynh/tree/testing --debug
 ```
 
-**Plus d'infos sur le packaging d'applications :** <https://yunohost.org/packaging_apps>
+**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>
