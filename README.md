@@ -6,6 +6,7 @@ It shall NOT be edited by hand.
 # Umami for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/umami.svg)](https://dash.yunohost.org/appci/app/umami) ![Working status](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
+
 [![Install Umami with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=umami)
 
 *[Lire ce readme en français.](./README_fr.md)*
