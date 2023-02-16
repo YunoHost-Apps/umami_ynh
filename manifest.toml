@@ -17,7 +17,7 @@ admindoc = "https://umami.is/docs/about"
 code = "https://github.com/mikecao/umami"
 
 [integration]
-yunohost = ">= 11.1.6"
+yunohost = ">= 11.1.7"
 architectures = "all"
 multi_instance = true
 ldap = false
