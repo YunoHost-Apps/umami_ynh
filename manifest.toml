@@ -5,7 +5,7 @@ name = "Umami"
 description.en = "Simple, fast, privacy-focused alternative to Google Analytics"
 description.fr = "Analyse de trafic web simple et respectueux"
 
-version = "1.40.0~ynh1"
+version = "2.0.0~ynh1"
 
 maintainers = ["eric_G"]
 
@@ -17,7 +17,7 @@ admindoc = "https://umami.is/docs/about"
 code = "https://github.com/mikecao/umami"
 
 [integration]
-yunohost = ">= 11.1.13"
+yunohost = ">= 11.1.17"
 architectures = "all"
 multi_instance = true
 ldap = false
@@ -36,6 +36,15 @@ ram.runtime = "50M"
     default = "visitors"
 
 [resources]
+
+    [resources.sources]
+
+        [resources.sources.main]
+
+        url = "https://github.com/mikecao/umami/archive/refs/tags/v2.0.0.tar.gz"
+        sha256 = "4489f36fed28b8c6d26f82182124717d5f33d59574137275bb8550d385ccc49e"
+        autoupdate.strategy = "latest_github_tag"
+
     [resources.system_user]
 
     [resources.install_dir]
