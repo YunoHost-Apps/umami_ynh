@@ -31,7 +31,7 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 - Privacy-focused
 
 
-**Version incluse :** 2.0.0~ynh1
+**Version incluse :** 2.2.0~ynh1
 
 **Démo :** https://app.umami.is/share/8rmHaheU/umami.is
 
@@ -39,13 +39,6 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 
 ![Capture d’écran de Umami](./doc/screenshots/dark.png)
 
-## Avertissements / informations importantes
-
-### Login
-
-Your Umami installation will create a default administrator account with the username `admin` and the password `umami`.
-
-The first thing you will want to do is log in and change your password.
 ## Documentations et ressources
 
 * Site officiel de l’app : <https://umami.is/>

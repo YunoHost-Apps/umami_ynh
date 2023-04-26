@@ -1,0 +1,69 @@
+packaging_format = 2
+
+id = "umami"
+name = "Umami"
+description.en = "Simple, fast, privacy-focused alternative to Google Analytics"
+description.fr = "Analyse de trafic web simple et respectueux"
+
+version = "2.2.0~ynh1"
+
+maintainers = ["eric_G"]
+
+[upstream]
+license = "MIT"
+website = "https://umami.is/"
+demo = "https://app.umami.is/share/8rmHaheU/umami.is"
+admindoc = "https://umami.is/docs/about"
+code = "https://github.com/mikecao/umami"
+
+[integration]
+yunohost = ">= 11.1.18"
+architectures = "all"
+multi_instance = true
+ldap = false
+sso = false
+disk = "50M"
+ram.build = "50M"
+ram.runtime = "50M"
+
+[install]
+    [install.domain]
+    type = "domain"
+    full_domain = true
+
+    [install.init_main_permission]
+    type = "group"
+    default = "visitors"
+
+[resources]
+
+    [resources.sources]
+
+        [resources.sources.main]
+
+        url = "https://github.com/mikecao/umami/archive/refs/tags/v2.2.0.tar.gz"
+        sha256 = "5aabb3fc63ef6203185cd3dee837998ca3d2c5e012a0665dfbbc47101c19ffb5"
+        autoupdate.strategy = "latest_github_tag"
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.ports]
+
+    [resources.permissions]
+    main.url = "/"
+    api.url = "/api"
+    api.show_tile = false
+    api.allowed = "visitors"
+    api.auth_header = false
+
+    [resources.apt]
+    packages = "postgresql"
+
+    extras.yarn.repo = "deb https://dl.yarnpkg.com/debian/ stable main"
+    extras.yarn.key = "https://dl.yarnpkg.com/debian/pubkey.gpg"
+    extras.yarn.packages = "yarn"
+    
+    [resources.database]
+    type = "postgresql"
