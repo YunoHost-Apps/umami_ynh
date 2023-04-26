@@ -17,7 +17,7 @@ admindoc = "https://umami.is/docs/about"
 code = "https://github.com/mikecao/umami"
 
 [integration]
-yunohost = ">= 11.1.17"
+yunohost = ">= 11.1.18"
 architectures = "all"
 multi_instance = true
 ldap = false
@@ -41,8 +41,8 @@ ram.runtime = "50M"
 
         [resources.sources.main]
 
-        url = "https://github.com/mikecao/umami/archive/refs/tags/v2.0.0.tar.gz"
-        sha256 = "4489f36fed28b8c6d26f82182124717d5f33d59574137275bb8550d385ccc49e"
+        url = "https://github.com/mikecao/umami/archive/refs/tags/v2.2.0.tar.gz"
+        sha256 = "5aabb3fc63ef6203185cd3dee837998ca3d2c5e012a0665dfbbc47101c19ffb5"
         autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
