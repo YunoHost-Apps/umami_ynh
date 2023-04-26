@@ -57,7 +57,6 @@ ram.runtime = "50M"
     api.show_tile = false
     api.allowed = "visitors"
     api.auth_header = false
-    api.show_tile = false
 
     [resources.apt]
     packages = "postgresql"
