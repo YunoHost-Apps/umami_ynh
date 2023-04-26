@@ -5,7 +5,8 @@ It shall NOT be edited by hand.
 
 # Umami for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/umami.svg)](https://dash.yunohost.org/appci/app/umami) ![Working status](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/umami.svg)](https://dash.yunohost.org/appci/app/umami) ![Working status](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
+
 [![Install Umami with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=umami)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -28,24 +29,16 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 - Mobile-friendly
 - Data ownership
 - Privacy-focused
-- Open-source
 
 
-**Shipped version:** 1.33~ynh2
+**Shipped version:** 2.2.0~ynh1
 
 **Demo:** https://app.umami.is/share/8rmHaheU/umami.is
 
 ## Screenshots
 
-![Screenshot of Umami](./doc/screenshots/dark.gif)
+![Screenshot of Umami](./doc/screenshots/dark.png)
 
-## Disclaimers / important information
-
-### Login
-
-Your Umami installation will create a default administrator account with the username `admin` and the password `umami`.
-
-The first thing you will want to do is log in and change your password.
 ## Documentation and resources
 
 * Official app website: <https://umami.is/>
