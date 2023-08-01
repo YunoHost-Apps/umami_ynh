@@ -41,6 +41,7 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Adding a configuration file..." --weight=1
 
+path="path%/"
 ynh_add_config --template="../conf/.env" --destination="$install_dir/.env"
 
 chmod 650 "$install_dir/.env"
