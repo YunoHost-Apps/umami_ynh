@@ -5,7 +5,7 @@ test_format = 1.0
     # Default args to use for install
     # -------------------------------
     
-    args.language = "fr_FR"
+    args.language = "fr-FR"
 
     # ------------
     # Tests to run
@@ -17,4 +17,4 @@ test_format = 1.0
     # Commits to test upgrade from
     # -------------------------------
 
-    test_upgrade_from.eb20586e7add0ee1f6da31bbe6fd8d7fe245c036.name = "Upgrade from 1.40"
+    test_upgrade_from.895948665a07b21752d5ba11d297f3a6531d832c.name = "Upgrade from 2.4.0"
