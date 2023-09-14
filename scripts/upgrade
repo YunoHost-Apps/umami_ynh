@@ -46,7 +46,7 @@ then
 	ynh_script_progression --message="Upgrading source files..." --weight=5
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir" #--keep=".env"
+	ynh_setup_source --dest_dir="$install_dir" --full_replace=1 #--keep=".env"
 fi
 
 chmod -R o-rwx "$install_dir"
@@ -91,7 +91,7 @@ ynh_script_progression --message="Configuring the app..." --weight=15
 pushd $install_dir
 	ynh_use_nodejs
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
-	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn build
+	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NEXT_TELEMETRY_DISABLED=1 yarn build
 	#ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH npx @umami/migrate-v1-v2@latest
 popd
 
