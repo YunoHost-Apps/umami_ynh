@@ -51,6 +51,10 @@ ynh_add_config --template="../conf/.env" --destination="$install_dir/.env"
 chmod 650 "$install_dir/.env"
 chown $app:$app "$install_dir/.env"
 
+ynh_script_progression --message="Provisioning pgcrypto..." --weight=1
+
+ynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS pgcrypto;" --database="$db_name"
+
 #=================================================
 # CONFIGURE THE APP
 #=================================================
