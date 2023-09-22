@@ -44,7 +44,7 @@ ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app
 if $(ynh_compare_current_package_version --comparison le --version "2.6.2~ynh4")
 then
 	ynh_script_progression --message="Removing old files..." --weight=2
-	rm -rf "$install_dir/{*,.*}"
+	rm -rf $install_dir/{*,.*}
 fi
 
 if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_compare_current_package_version --comparison le --version "2.6.2~ynh4") ]]; then
