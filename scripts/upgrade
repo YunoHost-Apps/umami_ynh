@@ -42,6 +42,7 @@ ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app
 #=================================================
 
 if [ $(ynh_compare_current_package_version --comparison le --version 2.6.2~ynh4) ]; then
+	ynh_script_progression --message="Removing old files..." --weight=2
 	rm -rf "$install_dir/{*,.*}"
 fi
 
@@ -80,10 +81,10 @@ yunohost service add $app --description="Web Analytics" --log="/var/log/$app/$ap
 #=================================================
 ynh_script_progression --message="Adding a configuration file..." --weight=1
 
-ynh_add_config --template="../conf/.env" --destination="$install_dir/.env"
+ynh_add_config --template="../conf/.env" --destination="$install_dir/build/.env"
 
-chmod 650 "$install_dir/.env"
-chown $app:$app "$install_dir/.env"
+chmod 650 "$install_dir/build/.env"
+chown $app:$app "$install_dir/build/.env"
 
 ynh_script_progression --message="Provisioning pgcrypto..." --weight=1
 
@@ -95,7 +96,7 @@ ynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS pgcrypto;" --data
 if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_compare_current_package_version --comparison le --version 2.6.2~ynh4) ]]; then
 	ynh_script_progression --message="Configuring the app..." --weight=15
 
-	pushd $install_dir
+	pushd $install_dir/build
 		ynh_use_nodejs
 		ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
 		ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NEXT_TELEMETRY_DISABLED=1 yarn build
@@ -123,8 +124,8 @@ if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_compare_current_package_version 
 	popd
 fi
 
-rm -rf $install_dir/.cache
-rm -rf $install_dir/build
+ynh_secure_remove --file="$install_dir/.cache"
+ynh_secure_remove --file="$install_dir/build"
 
 
 #=================================================
