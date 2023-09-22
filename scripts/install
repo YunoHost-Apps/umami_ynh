@@ -69,10 +69,10 @@ pushd "$install_dir/build"
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
 	ynh_secure_remove --file="node_modules/"
 	mv next.config.js .next/standalone/
-	mv public/ .next/standalone/
-	mv prisma/ .next/standalone/
-	mv scripts/ .next/standalone/
-	mv .next/static .next/standalone/
+	mv public .next/standalone/
+	mv prisma .next/standalone/
+	mv scripts .next/standalone/
+	mv .next/static .next/standalone/.next
 popd
 
 mkdir "$install_dir/release"
