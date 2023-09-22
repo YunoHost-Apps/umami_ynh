@@ -79,12 +79,11 @@ mkdir "$install_dir/release"
 chmod -R o-rwx "$install_dir/release"
 chown -R $app:www-data "$install_dir/release"
 
+mv -f $install_dir/build/.next/standalone/* $install_dir/release
+
 pushd "$install_dir/release"
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn add npm-run-all dotenv prisma
 popd
-
-
-mv -f $install_dir/build/.next/standalone/* $install_dir/release
 
 rm -rf $install_dir/.cache
 rm -rf $install_dir/build
