@@ -85,8 +85,8 @@ pushd "$install_dir/release"
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn add npm-run-all dotenv prisma
 popd
 
-rm -rf $install_dir/.cache
-rm -rf $install_dir/build
+ynh_secure_remove --file="$install_dir/.cache" 
+ynh_secure_remove --file="$install_dir/build" 
 
 #=================================================
 # START SYSTEMD SERVICE
