@@ -31,7 +31,7 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 - Privacy-focused
 
 
-**Version incluse :** 2.6.2~ynh4
+**Version incluse :** 2.7.0~ynh4
 
 **Démo :** https://app.umami.is/share/8rmHaheU/umami.is
 

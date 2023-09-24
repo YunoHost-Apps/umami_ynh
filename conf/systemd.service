@@ -10,7 +10,8 @@ WorkingDirectory=__INSTALL_DIR__/
 Environment=NODE_ENV=production
 Environment="__YNH_NODE_LOAD_PATH__"
 Environment=NEXT_TELEMETRY_DISABLED=1
-ExecStart=__YNH_NPM__ run start-env
+Environment=PORT=__PORT__
+ExecStart=__YNH_NPM__ exec next start
 
 # Sandboxing options to harden security
 # Depending on specificities of your service/app, you may need to tweak these
