@@ -41,17 +41,18 @@ ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
-if $(ynh_compare_current_package_version --comparison le --version "2.6.2~ynh4")
+if $(ynh_compare_current_package_version --comparison le --version "2.7.0~ynh4")
 then
 	# Purge old root directory's contents
 	ynh_script_progression --message="Removing old files..." --weight=2
-	mkdir "$install_dir/release"
-	chmod -R o-rwx "$install_dir/release"
-	chown -R $app:www-data "$install_dir/release"
-	mv -f $install_dir/* $install_dir/.[!.]* $install_dir/release
+	mkdir /tmp/release
+	chmod -R o-rwx /tmp/release
+	chown -R $app:www-data /tmp/release
+	mv -f $install_dir/* $install_dir/.[!.]* /tmp/release
+	mv /tmp/release $install_dir/
 fi
 
-if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_compare_current_package_version --comparison le --version "2.6.2~ynh4") ]]; then
+if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_compare_current_package_version --comparison le --version "2.7.0~ynh4") ]]; then
 	ynh_script_progression --message="Upgrading source files..." --weight=5
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$install_dir/build" --full_replace=1 #--keep=".env"
@@ -98,7 +99,7 @@ ynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS pgcrypto;" --data
 #=================================================
 # CONFIGURE THE APP
 #=================================================
-if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_compare_current_package_version --comparison le --version 2.6.2~ynh4) ]]; then
+if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_compare_current_package_version --comparison le --version "2.7.0~ynh4") ]]; then
 	ynh_script_progression --message="Configuring the app..." --weight=15
 
 	pushd $install_dir/build
