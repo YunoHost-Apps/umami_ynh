@@ -31,7 +31,7 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 - Privacy-focused
 
 
-**Shipped version:** 2.7.0~ynh4
+**Shipped version:** 2.8.0~ynh1
 
 **Demo:** https://app.umami.is/share/8rmHaheU/umami.is
 
@@ -44,7 +44,6 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 * Official app website: <https://umami.is/>
 * Official admin documentation: <https://umami.is/docs/about>
 * Upstream app code repository: <https://github.com/mikecao/umami>
-* YunoHost documentation for this app: <https://yunohost.org/app_umami>
 * Report a bug: <https://github.com/YunoHost-Apps/umami_ynh/issues>
 
 ## Developer info
