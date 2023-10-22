@@ -7,7 +7,7 @@ description.fr = "Analyse de trafic web simple et respectueux"
 
 version = "2.8.0~ynh1"
 
-maintainers = ["eric_G"]
+maintainers = ["orhtej2"]
 
 [upstream]
 license = "MIT"
