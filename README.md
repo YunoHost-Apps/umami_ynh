@@ -44,6 +44,7 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 * Official app website: <https://umami.is/>
 * Official admin documentation: <https://umami.is/docs/about>
 * Upstream app code repository: <https://github.com/mikecao/umami>
+* YunoHost Store: <https://apps.yunohost.org/app/umami>
 * Report a bug: <https://github.com/YunoHost-Apps/umami_ynh/issues>
 
 ## Developer info
