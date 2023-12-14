@@ -23,7 +23,7 @@ ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 ynh_script_progression --message="Setting up source files..." --weight=5
 
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$install_dir"
+ynh_setup_source --dest_dir="$install_dir/build"
 
 chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir"
@@ -46,10 +46,10 @@ yunohost service add $app --description="Web Analytics" --log="/var/log/$app/$ap
 #=================================================
 ynh_script_progression --message="Adding a configuration file..." --weight=1
 
-ynh_add_config --template="../conf/.env" --destination="$install_dir/.env"
+ynh_add_config --template="../conf/.env" --destination="$install_dir/build/.env"
 
-chmod 650 "$install_dir/.env"
-chown $app:$app "$install_dir/.env"
+chmod 650 "$install_dir/build/.env"
+chown $app:$app "$install_dir/build/.env"
 
 ynh_script_progression --message="Provisioning pgcrypto..." --weight=1
 
@@ -60,11 +60,33 @@ ynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS pgcrypto;" --data
 #=================================================
 ynh_script_progression --message="Configuring the app..." --weight=15
 
-pushd $install_dir
+pushd "$install_dir/build"
 	ynh_use_nodejs
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NEXT_TELEMETRY_DISABLED=1 yarn build
+
+	# Actual app is a subset of release assets
+	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
+	ynh_secure_remove --file="node_modules/"
+	mv next.config.js .next/standalone/
+	mv public .next/standalone/
+	mv prisma .next/standalone/
+	mv scripts .next/standalone/
+	mv .next/static .next/standalone/.next
 popd
+
+mkdir "$install_dir/release"
+chmod -R o-rwx "$install_dir/release"
+chown -R $app:www-data "$install_dir/release"
+
+mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
+
+pushd "$install_dir/release"
+	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn add npm-run-all dotenv prisma
+popd
+
+ynh_secure_remove --file="$install_dir/.cache" 
+ynh_secure_remove --file="$install_dir/build" 
 
 #=================================================
 # START SYSTEMD SERVICE
