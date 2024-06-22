@@ -3,7 +3,7 @@
 请勿手动编辑。
 -->
 
-# YunoHost 的 Umami
+# YunoHost 上的 Umami
 
 [![集成程度](https://dash.yunohost.org/integration/umami.svg)](https://dash.yunohost.org/appci/app/umami) ![工作状态](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
 
@@ -31,7 +31,7 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 - Privacy-focused
 
 
-**分发版本：** 2.11.3~ynh1
+**分发版本：** 2.12.0~ynh1
 
 **演示：** <https://app.umami.is/share/8rmHaheU/umami.is>
 
