@@ -5,7 +5,7 @@ NON debe editarse manualmente.
 
 # Umami para YunoHost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/umami.svg)](https://dash.yunohost.org/appci/app/umami) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
+[![Nivel de integración](https://dash.yunohost.org/integration/umami.svg)](https://ci-apps.yunohost.org/ci/apps/umami/) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
 
 [![Instalar Umami con YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=umami)
 
@@ -31,7 +31,7 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 - Privacy-focused
 
 
-**Versión proporcionada:** 2.12.0~ynh1
+**Versión proporcionada:** 2.12.1~ynh1
 
 **Demo:** <https://app.umami.is/share/8rmHaheU/umami.is>
 
