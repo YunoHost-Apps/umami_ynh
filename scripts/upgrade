@@ -8,12 +8,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression "Ensuring downward compatibility..."
 
-# If language doesn't exist, create it
-# FIXMEhelpers2.1: maybe replace with: ynh_app_setting_set_default --key=language --value="en-US"
-if [ -z "${language:-}" ]; then
-	language="en-US"
-	ynh_app_setting_set --key=language --value=$language
-fi
+ynh_app_setting_set_default --key=language --value="en-US"
 
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -51,7 +46,6 @@ chown -R $app:www-data "$install_dir/build"
 #=================================================
 ynh_script_progression "Upgrading dependencies..."
 
-# Install Nodejs
 ynh_nodejs_install
 
 #=================================================
@@ -59,10 +53,8 @@ ynh_nodejs_install
 #=================================================
 ynh_script_progression "Upgrading system configurations related to $app..."
 
-# Create a dedicated NGINX config
 ynh_config_add_nginx
 
-# Create a dedicated systemd config
 ynh_config_add_systemd
 
 yunohost service add $app --description="Web Analytics" --log="/var/log/$app/$app.log"
@@ -74,8 +66,7 @@ ynh_script_progression "Adding $app's configuration..."
 
 ynh_config_add --template=".env" --destination="$install_dir/build/.env"
 
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 650 "$install_dir/build/.env"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown $app:$app "$install_dir/build/.env"
+chmod 650 "$install_dir/build/.env"
 
 ynh_script_progression "Provisioning pgcrypto..."
 
@@ -84,13 +75,13 @@ ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 #=================================================
 # CONFIGURE THE APP
 #=================================================
+
 if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_app_upgrading_from_version_before_or_equal_to 2.7.0~ynh4) ]]; then
 	ynh_script_progression "Configuring the app..."
 
 	pushd $install_dir/build
-
-		ynh_hide_warnings ynh_exec_as_app node_load_PATH yarn install
-		ynh_hide_warnings ynh_exec_as_app node_load_PATH NEXT_TELEMETRY_DISABLED=1 yarn build
+		ynh_hide_warnings ynh_exec_as_app yarn install
+		ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 yarn build
 
 		# Actual app is a subset of release assets
 		# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
@@ -111,7 +102,7 @@ if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_app_upgrading_from_version_befor
 	mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
 
 	pushd "$install_dir/release"
-		ynh_hide_warnings ynh_exec_as_app node_load_PATH yarn add npm-run-all dotenv prisma
+		ynh_hide_warnings ynh_exec_as_app yarn add npm-run-all dotenv prisma
 	popd
 fi
 
