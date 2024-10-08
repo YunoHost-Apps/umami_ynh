@@ -18,3 +18,9 @@ test_format = 1.0
     # -------------------------------
 
     test_upgrade_from.895948665a07b21752d5ba11d297f3a6531d832c.name = "Upgrade from 2.4.0"
+
+    [default.curl_tests]
+    default.expect_return_code= 401
+
+    login.path = "/login"
+    login.auto_test_assets = true
