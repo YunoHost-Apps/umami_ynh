@@ -1,50 +1,30 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# CHECK VERSION
-#=================================================
-
-upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
-# STANDARD UPGRADE STEPS
-#=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
+ynh_script_progression "Ensuring downward compatibility..."
 
-# If language doesn't exist, create it
-if [ -z "${language:-}" ]; then
-	language="en-US"
-	ynh_app_setting_set --app=$app --key=language --value=$language
-fi
+ynh_app_setting_set_default --key=language --value="en-US"
 
-#=================================================
-# STANDARD UPGRADE STEPS
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..." --weight=1
+ynh_script_progression "Stopping $app's systemd service..."
 
-ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
+ynh_systemctl --service=$app --action="stop"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
-if $(ynh_compare_current_package_version --comparison le --version "2.7.0~ynh4")
+if $(ynh_app_upgrading_from_version_before_or_equal_to 2.7.0~ynh4)
 then
 	# Purge old root directory's contents
-	ynh_script_progression --message="Removing old files..." --weight=2
+	ynh_script_progression "Removing old files..."
 	mkdir /tmp/release
 	chmod -R o-rwx /tmp/release
 	chown -R $app:www-data /tmp/release
@@ -52,97 +32,86 @@ then
 	mv /tmp/release $install_dir/
 fi
 
-if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_compare_current_package_version --comparison le --version "2.7.0~ynh4") ]]; then
-	ynh_script_progression --message="Upgrading source files..." --weight=5
-	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir/build" --full_replace=1 #--keep=".env"
-fi
-
-chmod -R o-rwx "$install_dir/build"
-chown -R $app:www-data "$install_dir/build"
+ynh_script_progression "Upgrading source files..."
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$install_dir/build" --full_replace #--keep=".env"
+chown -R $app:$app $install_dir/build
 
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..." --weight=10
+ynh_script_progression "Upgrading dependencies..."
 
-# Install Nodejs
-ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
+ynh_nodejs_install
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+ynh_script_progression "Upgrading system configurations related to $app..."
 
-# Create a dedicated NGINX config
-ynh_add_nginx_config
+ynh_config_add_nginx
 
-# Create a dedicated systemd config
-ynh_add_systemd_config
+ynh_config_add_systemd
 
 yunohost service add $app --description="Web Analytics" --log="/var/log/$app/$app.log"
 
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding a configuration file..." --weight=1
+ynh_script_progression "Adding $app's configuration..."
 
-ynh_add_config --template="../conf/.env" --destination="$install_dir/build/.env"
+ynh_config_add --template=".env" --destination="$install_dir/build/.env"
 
 chmod 650 "$install_dir/build/.env"
-chown $app:$app "$install_dir/build/.env"
 
-ynh_script_progression --message="Provisioning pgcrypto..." --weight=1
+ynh_script_progression "Provisioning pgcrypto..."
 
-ynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS pgcrypto;" --database="$db_name"
+ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 
 #=================================================
 # CONFIGURE THE APP
 #=================================================
-if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_compare_current_package_version --comparison le --version "2.7.0~ynh4") ]]; then
-	ynh_script_progression --message="Configuring the app..." --weight=15
 
-	pushd $install_dir/build
-		ynh_use_nodejs
-		ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
-		ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NEXT_TELEMETRY_DISABLED=1 yarn build
+ynh_script_progression "Configuring the app..."
 
-		# Actual app is a subset of release assets
-		# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
-		ynh_secure_remove --file="node_modules/"
-		mv next.config.js .next/standalone/
-		mv public .next/standalone/
-		mv prisma .next/standalone/
-		mv scripts .next/standalone/
-		mv .next/static .next/standalone/.next
-	popd
+pushd $install_dir/build
+	ynh_hide_warnings ynh_exec_as_app yarn install
+	ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 yarn build
 
-	ynh_secure_remove --file="$install_dir/release"
+	# Actual app is a subset of release assets
+	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
+	ynh_safe_rm "node_modules/"
+	mv next.config.js .next/standalone/
+	mv public .next/standalone/
+	mv prisma .next/standalone/
+	mv scripts .next/standalone/
+	mv .next/static .next/standalone/.next
+popd
 
-	mkdir "$install_dir/release"
-	chmod -R o-rwx "$install_dir/release"
-	chown -R $app:www-data "$install_dir/release"
+ynh_safe_rm "$install_dir/release"
 
-	mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
+mkdir "$install_dir/release"
+chmod -R o-rwx "$install_dir/release"
+chown -R $app:www-data "$install_dir/release"
 
-	pushd "$install_dir/release"
-		ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn add npm-run-all dotenv prisma
-	popd
-fi
+mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
 
-ynh_secure_remove --file="$install_dir/.cache"
-ynh_secure_remove --file="$install_dir/build"
+pushd "$install_dir/release"
+	ynh_hide_warnings ynh_exec_as_app yarn add npm-run-all dotenv prisma
+popd
 
+ynh_safe_rm "$install_dir/.cache"
+ynh_safe_rm "$install_dir/build"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --weight=1
+ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemctl --service=$app --action="start"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression "Upgrade of $app completed"
