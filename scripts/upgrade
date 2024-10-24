@@ -36,10 +36,8 @@ if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_app_upgrading_from_version_befor
 	ynh_script_progression "Upgrading source files..."
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$install_dir/build" --full_replace #--keep=".env"
+	chown -R $app:$app $install_dir/build
 fi
-
-chmod -R o-rwx "$install_dir/build"
-chown -R $app:www-data "$install_dir/build"
 
 #=================================================
 # UPGRADE DEPENDENCIES
