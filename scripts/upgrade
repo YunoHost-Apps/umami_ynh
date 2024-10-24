@@ -32,12 +32,10 @@ then
 	mv /tmp/release $install_dir/
 fi
 
-if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_app_upgrading_from_version_before_or_equal_to 2.7.0~ynh4) ]]; then
-	ynh_script_progression "Upgrading source files..."
-	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir/build" --full_replace #--keep=".env"
-	chown -R $app:$app $install_dir/build
-fi
+ynh_script_progression "Upgrading source files..."
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$install_dir/build" --full_replace #--keep=".env"
+chown -R $app:$app $install_dir/build
 
 #=================================================
 # UPGRADE DEPENDENCIES
