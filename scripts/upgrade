@@ -74,35 +74,33 @@ ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 # CONFIGURE THE APP
 #=================================================
 
-if [[ "$upgrade_type" == "UPGRADE_APP" || $(ynh_app_upgrading_from_version_before_or_equal_to 2.7.0~ynh4) ]]; then
-	ynh_script_progression "Configuring the app..."
+ynh_script_progression "Configuring the app..."
 
-	pushd $install_dir/build
-		ynh_hide_warnings ynh_exec_as_app yarn install
-		ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 yarn build
+pushd $install_dir/build
+	ynh_hide_warnings ynh_exec_as_app yarn install
+	ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 yarn build
 
-		# Actual app is a subset of release assets
-		# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
-		ynh_safe_rm "node_modules/"
-		mv next.config.js .next/standalone/
-		mv public .next/standalone/
-		mv prisma .next/standalone/
-		mv scripts .next/standalone/
-		mv .next/static .next/standalone/.next
-	popd
+	# Actual app is a subset of release assets
+	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
+	ynh_safe_rm "node_modules/"
+	mv next.config.js .next/standalone/
+	mv public .next/standalone/
+	mv prisma .next/standalone/
+	mv scripts .next/standalone/
+	mv .next/static .next/standalone/.next
+popd
 
-	ynh_safe_rm "$install_dir/release"
+ynh_safe_rm "$install_dir/release"
 
-	mkdir "$install_dir/release"
-	chmod -R o-rwx "$install_dir/release"
-	chown -R $app:www-data "$install_dir/release"
+mkdir "$install_dir/release"
+chmod -R o-rwx "$install_dir/release"
+chown -R $app:www-data "$install_dir/release"
 
-	mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
+mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
 
-	pushd "$install_dir/release"
-		ynh_hide_warnings ynh_exec_as_app yarn add npm-run-all dotenv prisma
-	popd
-fi
+pushd "$install_dir/release"
+	ynh_hide_warnings ynh_exec_as_app yarn add npm-run-all dotenv prisma
+popd
 
 ynh_safe_rm "$install_dir/.cache"
 ynh_safe_rm "$install_dir/build"
