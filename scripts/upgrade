@@ -75,7 +75,7 @@ ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 ynh_script_progression "Configuring the app..."
 
 pushd $install_dir/build
-	ynh_hide_warnings ynh_exec_as_app yarn install
+	ynh_hide_warnings ynh_exec_as_app COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install
 	ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 yarn build
 
 	# Actual app is a subset of release assets
