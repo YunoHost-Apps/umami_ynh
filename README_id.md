@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # Umami untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/umami.svg)](https://ci-apps.yunohost.org/ci/apps/umami/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/umami)](https://ci-apps.yunohost.org/ci/apps/umami/)
+![Status kerja](https://apps.yunohost.org/badge/state/umami)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/umami)
 
 [![Pasang Umami dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=umami)
 
@@ -31,7 +33,7 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 - Privacy-focused
 
 
-**Versi terkirim:** 2.13.2~ynh1
+**Versi terkirim:** 2.14.0~ynh1
 
 **Demo:** <https://app.umami.is/share/8rmHaheU/umami.is>
 

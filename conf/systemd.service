@@ -8,10 +8,10 @@ User=__APP__
 Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/release
 Environment=NODE_ENV=production
-Environment="__YNH_NODE_LOAD_PATH__"
+Environment="PATH=__PATH_WITH_NODEJS__"
 Environment=NEXT_TELEMETRY_DISABLED=1
 Environment=PORT=__PORT__
-ExecStart=__YNH_NPM__ exec next start
+ExecStart=__NODEJS_DIR__/npm exec next start
 
 # Sandboxing options to harden security
 # Depending on specificities of your service/app, you may need to tweak these
