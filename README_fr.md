@@ -5,7 +5,9 @@ Il NE doit PAS être modifié à la main.
 
 # Umami pour YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/umami.svg)](https://ci-apps.yunohost.org/ci/apps/umami/) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
+[![Niveau d’intégration](https://apps.yunohost.org/badge/integration/umami)](https://ci-apps.yunohost.org/ci/apps/umami/)
+![Statut du fonctionnement](https://apps.yunohost.org/badge/state/umami)
+![Statut de maintenance](https://apps.yunohost.org/badge/maintained/umami)
 
 [![Installer Umami avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=umami)
 

@@ -5,7 +5,9 @@
 
 # YunoHost 上的 Umami
 
-[![集成程度](https://dash.yunohost.org/integration/umami.svg)](https://ci-apps.yunohost.org/ci/apps/umami/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
+[![集成程度](https://apps.yunohost.org/badge/integration/umami)](https://ci-apps.yunohost.org/ci/apps/umami/)
+![工作状态](https://apps.yunohost.org/badge/state/umami)
+![维护状态](https://apps.yunohost.org/badge/maintained/umami)
 
 [![使用 YunoHost 安装 Umami](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=umami)
 

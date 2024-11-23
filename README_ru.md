@@ -5,7 +5,9 @@
 
 # Umami для YunoHost
 
-[![Уровень интеграции](https://dash.yunohost.org/integration/umami.svg)](https://ci-apps.yunohost.org/ci/apps/umami/) ![Состояние работы](https://ci-apps.yunohost.org/ci/badges/umami.status.svg) ![Состояние сопровождения](https://ci-apps.yunohost.org/ci/badges/umami.maintain.svg)
+[![Уровень интеграции](https://apps.yunohost.org/badge/integration/umami)](https://ci-apps.yunohost.org/ci/apps/umami/)
+![Состояние работы](https://apps.yunohost.org/badge/state/umami)
+![Состояние сопровождения](https://apps.yunohost.org/badge/maintained/umami)
 
 [![Установите Umami с YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=umami)
 
