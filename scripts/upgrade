@@ -1,7 +1,18 @@
 #!/bin/bash
 
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source _common.sh
 source /usr/share/yunohost/helpers
+
+#=================================================
+# STOP SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Stopping $app's systemd service..."
+
+ynh_systemctl --service="$app" --action="stop"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -9,17 +20,6 @@ source /usr/share/yunohost/helpers
 ynh_script_progression "Ensuring downward compatibility..."
 
 ynh_app_setting_set_default --key=language --value="en-US"
-
-#=================================================
-# STOP SYSTEMD SERVICE
-#=================================================
-ynh_script_progression "Stopping $app's systemd service..."
-
-ynh_systemctl --service=$app --action="stop"
-
-#=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
-#=================================================
 
 if $(ynh_app_upgrading_from_version_before_or_equal_to 2.7.0~ynh4)
 then
@@ -32,10 +32,28 @@ then
 	mv /tmp/release $install_dir/
 fi
 
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
 ynh_script_progression "Upgrading source files..."
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$install_dir/build" --full_replace #--keep=".env"
+
+# Download, check integrity, uncompress and patch the source from manifest.toml
+ynh_setup_source --dest_dir="$install_dir/build" --full_replace --keep=".env"
+
 chown -R $app:$app $install_dir/build
+
+#=================================================
+# UPDATE A CONFIG FILE
+#=================================================
+ynh_script_progression "Updating $app's configuration files..."
+
+ynh_config_add --template=".env" --destination="$install_dir/build/.env"
+
+chmod 650 "$install_dir/build/.env"
+
+ynh_script_progression "Provisioning pgcrypto..."
+
+ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 
 #=================================================
 # UPGRADE DEPENDENCIES
@@ -45,28 +63,14 @@ ynh_script_progression "Upgrading dependencies..."
 ynh_nodejs_install
 
 #=================================================
-# REAPPLY SYSTEM CONFIGURATIONS
+# REAPPLY SYSTEM CONFIGURATION
 #=================================================
 ynh_script_progression "Upgrading system configurations related to $app..."
 
 ynh_config_add_nginx
 
 ynh_config_add_systemd
-
-yunohost service add $app --description="Web Analytics" --log="/var/log/$app/$app.log"
-
-#=================================================
-# ADD A CONFIGURATION
-#=================================================
-ynh_script_progression "Adding $app's configuration..."
-
-ynh_config_add --template=".env" --destination="$install_dir/build/.env"
-
-chmod 650 "$install_dir/build/.env"
-
-ynh_script_progression "Provisioning pgcrypto..."
-
-ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+yunohost service add "$app" --description="Web Analytics" --log="/var/log/$app/$app.log"
 
 #=================================================
 # CONFIGURE THE APP
@@ -108,7 +112,7 @@ ynh_safe_rm "$install_dir/build"
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service=$app --action="start"
+ynh_systemctl --service="$app" --action="start"
 
 #=================================================
 # END OF SCRIPT
