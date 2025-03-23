@@ -38,9 +38,9 @@ fi
 ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from manifest.toml
-ynh_setup_source --dest_dir="$install_dir/build" --full_replace --keep=".env"
+ynh_setup_source --dest_dir="$install_dir/build"
 
-chown -R $app:$app $install_dir/build
+chown -R "$app:$app" "$install_dir/build"
 
 #=================================================
 # UPDATE A CONFIG FILE
@@ -75,10 +75,9 @@ yunohost service add "$app" --description="Web Analytics" --log="/var/log/$app/$
 #=================================================
 # CONFIGURE THE APP
 #=================================================
-
 ynh_script_progression "Configuring the app..."
 
-pushd $install_dir/build
+pushd "$install_dir/build"
 	ynh_hide_warnings ynh_exec_as_app COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install
 	ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 yarn build
 
@@ -105,6 +104,7 @@ pushd "$install_dir/release"
 popd
 
 ynh_safe_rm "$install_dir/.cache"
+
 ynh_safe_rm "$install_dir/build"
 
 #=================================================
@@ -112,7 +112,7 @@ ynh_safe_rm "$install_dir/build"
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service="$app" --action="start"
+ynh_systemctl --service="$app" --action="start" --wait_until="Ready in" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT

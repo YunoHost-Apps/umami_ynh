@@ -12,8 +12,10 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression "Setting up source files..."
 
+# Download, check integrity, uncompress and patch the source from manifest.toml
 ynh_setup_source --dest_dir="$install_dir/build"
-chown -R $app:$app $install_dir/build
+
+chown -R "$app:$app" "$install_dir/build"
 
 #=================================================
 # APP INITIAL CONFIGURATION
@@ -86,7 +88,7 @@ ynh_safe_rm "$install_dir/build"
 ynh_script_progression "Starting $app's systemd service..."
 
 # Start a systemd service
-ynh_systemctl --service="$app" --action="start"
+ynh_systemctl --service="$app" --action="start" --wait_until="Ready in" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT
