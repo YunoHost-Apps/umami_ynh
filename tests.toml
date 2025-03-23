@@ -1,20 +1,25 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/tests.v1.schema.json
+
 test_format = 1.0
 
 [default]
-    # -------------------------------
-    # Default args to use for install
-    # -------------------------------
-    
-    args.language = "fr-FR"
 
     # ------------
     # Tests to run
     # ------------
 
-    exclude = "install.subdir"
+    exclude = ["install.subdir"]
+
+    # -------------------------------
+    # Default args to use for install
+    # -------------------------------
+
+    args.language = "fr-FR"
 
     # -------------------------------
     # Commits to test upgrade from
     # -------------------------------
 
-    test_upgrade_from.895948665a07b21752d5ba11d297f3a6531d832c.name = "Upgrade from 2.4.0"
+    test_upgrade_from.0e79807c372b082c247db42f57e2c309a9dba76c.name = "Upgrade from 2.17.0~ynh1"
+
+    #test_upgrade_from.895948665a07b21752d5ba11d297f3a6531d832c.name = "Upgrade from 2.4.0"

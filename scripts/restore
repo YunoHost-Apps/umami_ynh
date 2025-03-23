@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
+# Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
 source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
@@ -27,23 +32,22 @@ ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 ynh_psql_db_shell < ./db.sql
 
 #=================================================
-# RESTORE SYSTEM CONFIGURATIONS
+# RESTORE SYSTEM CONFIGURATION
 #=================================================
 ynh_script_progression "Restoring system configurations related to $app..."
 
 ynh_restore "/etc/nginx/conf.d/$domain.d/$app.conf"
 
 ynh_restore "/etc/systemd/system/$app.service"
-systemctl enable $app.service --quiet
-
-yunohost service add $app --description="Web Analytics" --log="/var/log/$app/$app.log"
+systemctl enable "$app.service" --quiet
+yunohost service add "$app" --description="Web Analytics" --log="/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service=$app --action="start"
+ynh_systemctl --service="$app" --action="start" --wait_until="Ready in" --log_path="systemd"
 
 ynh_systemctl --service=nginx --action=reload
 
