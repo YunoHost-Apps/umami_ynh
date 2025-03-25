@@ -53,7 +53,7 @@ Umami is a simple, easy to use, self-hosted web analytics solution. The goal is 
 
 Bidali `pull request`a [`testing` abarrera](https://github.com/YunoHost-Apps/umami_ynh/tree/testing).
 
-`testing` abarra probatzeko, ondorengoa egin:
+`testing` abarra probatzeko, honakoa egin:
 
 ```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/umami_ynh/tree/testing --debug

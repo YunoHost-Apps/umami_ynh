@@ -3,7 +3,7 @@ Este archivo README esta generado automaticamente<https://github.com/YunoHost/ap
 No se debe editar a mano.
 -->
 
-# Umami para Yunohost
+# Umami para YunoHost
 
 [![Nivel de integración](https://apps.yunohost.org/badge/integration/umami)](https://ci-apps.yunohost.org/ci/apps/umami/)
 ![Estado funcional](https://apps.yunohost.org/badge/state/umami)
