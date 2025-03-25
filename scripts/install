@@ -56,7 +56,7 @@ ynh_script_progression "Configuring the app..."
 
 pushd "$install_dir/build"
 	ynh_hide_warnings ynh_exec_as_app COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install
-	ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 yarn build
+	ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS="--max-old-space-size=3000" yarn build
 
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
