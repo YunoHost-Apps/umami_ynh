@@ -84,7 +84,7 @@ pushd "$install_dir/build"
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
 	ynh_safe_rm "node_modules/"
-	mv next.config.js .next/standalone/
+	mv next.config.mjs .next/standalone/
 	mv public .next/standalone/
 	mv prisma .next/standalone/
 	mv scripts .next/standalone/
