@@ -84,7 +84,7 @@ pushd "$install_dir/build"
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
 	ynh_safe_rm "node_modules/"
-	mv next.config.js .next/standalone/
+	mv next.config.mjs .next/standalone/
 	mv public .next/standalone/
 	mv prisma .next/standalone/
 	mv scripts .next/standalone/
@@ -102,6 +102,12 @@ mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/
 pushd "$install_dir/release"
 	ynh_hide_warnings ynh_exec_as_app yarn add npm-run-all dotenv prisma
 popd
+
+if ynh_app_upgrading_from_version_before 1.8.0~ynh1; then
+	ynh_script_progression "Migrating data to 1.8.0 schema...."
+    # cf https://github.com/umami-software/umami/releases/tag/v2.18.0
+    ynh_psql_db_shell  < "../conf/2.18.0.sql"
+fi
 
 ynh_safe_rm "$install_dir/.cache"
 
