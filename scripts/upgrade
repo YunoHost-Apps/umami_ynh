@@ -103,7 +103,7 @@ pushd "$install_dir/release"
 	ynh_hide_warnings ynh_exec_as_app yarn add npm-run-all dotenv prisma
 popd
 
-if ynh_compare_current_package_version --comparison le --version "1.8.0~ynh1"; then
+if ynh_app_upgrading_from_version_before 1.8.0~ynh1; then
 	ynh_script_progression "Migrating data to 1.8.0 schema...."
     # cf https://github.com/umami-software/umami/releases/tag/v2.18.0
     ynh_psql_db_shell  < "../conf/2.18.0.sql"
