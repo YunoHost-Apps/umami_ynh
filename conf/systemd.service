@@ -7,10 +7,8 @@ Type=simple
 User=__APP__
 Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/release
-Environment=NODE_ENV=production
+EnvironmentFile=__INSTALL_DIR__/.env
 Environment="PATH=__PATH_WITH_NODEJS__"
-Environment=NEXT_TELEMETRY_DISABLED=1
-Environment=PORT=__PORT__
 ExecStart=__NODEJS_DIR__/npm exec next start
 
 # Sandboxing options to harden security
