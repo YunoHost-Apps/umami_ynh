@@ -7,7 +7,7 @@ name = "Umami"
 description.en = "Simple, fast, privacy-focused alternative to Google Analytics"
 description.fr = "Analyse de trafic web simple et respectueux"
 
-version = "2.18.1~ynh1"
+version = "2.18.1~ynh2"
 
 maintainers = ["orhtej2"]
 
