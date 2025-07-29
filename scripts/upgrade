@@ -104,9 +104,15 @@ pushd "$install_dir/release"
 popd
 
 if ynh_app_upgrading_from_version_before 2.18.0~ynh1; then
-	ynh_script_progression "Migrating data to 2.18.0 schema...."
+    ynh_script_progression "Migrating data to 2.18.0 schema...."
     # cf https://github.com/umami-software/umami/releases/tag/v2.18.0
     ynh_psql_db_shell  < "../conf/2.18.0.sql"
+fi
+
+if ynh_app_upgrading_from_version_before 2.19.0~ynh1; then
+    ynh_script_progression "Migrating data to 2.19.0 schema...."
+    # cf https://github.com/umami-software/umami/releases/tag/v2.19.0
+    ynh_psql_db_shell  < "../conf/2.19.0.sql"
 fi
 
 ynh_safe_rm "$install_dir/.cache"
