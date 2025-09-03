@@ -4,7 +4,6 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
-
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -54,13 +53,6 @@ chmod 650 "$install_dir/build/.env"
 ynh_script_progression "Provisioning pgcrypto..."
 
 ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
-
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-ynh_script_progression "Upgrading dependencies..."
-
-#REMOVEME? ynh_nodejs_install
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATION
