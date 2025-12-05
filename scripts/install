@@ -73,7 +73,7 @@ pushd "$install_dir/build"
  	mv scripts release/scripts
 	mv generated release/generated
 	mv .next/standalone/* release
-	mv .next/static ./.next/static
+	mv .next/static release/.next/static
 popd
 
 mkdir "$install_dir/release"
