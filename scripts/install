@@ -72,7 +72,7 @@ pushd "$install_dir/build"
 	mv prisma release/prisma
  	mv scripts release/scripts
 	mv generated release/generated
-	mv standalone release
+	mv .next/standalone/* release
 	mv .next/static ./.next/static
 popd
 
