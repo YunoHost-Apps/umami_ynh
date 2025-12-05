@@ -61,19 +61,19 @@ pushd "$install_dir/build"
 	
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
-	mv public .next/standalone/
-	mv prisma .next/standalone/
-	mv scripts .next/standalone/
-	mv .next/static .next/standalone/.next
+	#mv public .next/standalone/
+	#mv prisma .next/standalone/
+	#mv scripts .next/standalone/
+	#mv .next/static .next/standalone/.next
 
 	mkdir release
 
-	mv ./public release/public
-	mv ./prisma release/prisma
- 	mv ./scripts release/scripts
-	mv ./generated release/generated
-	mv ./standalone release
-	mv ./.next/static ./.next/static
+	mv public release/public
+	mv prisma release/prisma
+ 	mv scripts release/scripts
+	mv generated release/generated
+	mv standalone release
+	mv .next/static ./.next/static
 popd
 
 mkdir "$install_dir/release"
