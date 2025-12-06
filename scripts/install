@@ -53,10 +53,10 @@ pushd "$install_dir/build"
 	
 	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile
 	cp docker/middleware.ts ./src
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=productionNEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-db
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=productionNEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-tracker 
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=productionNEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-geo
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=productionNEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-app
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-db
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-tracker 
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-geo
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-app
 	ynh_safe_rm "$install_dir/node_modules/"
 	
 	# Actual app is a subset of release assets
@@ -78,9 +78,9 @@ mkdir $install_dir/release/.next
 mv -f $install_dir/build/.next/static $install_dir/release/.next/
 
 pushd "$install_dir/release"
-	ynh_hide_warnings ynh_exec_as_app pnpm --allow-build='@prisma/engines' add dotenv NODE_ENV=productionchalk semver prisma@6.19.0 @prisma/adapter-pg@6.19.0
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=productionNEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run check-db
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=productionNEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run update-tracker
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production pnpm --allow-build='@prisma/engines' add dotenv chalk semver prisma@6.19.0 @prisma/adapter-pg@6.19.0
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run check-db
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run update-tracker
 popd
 
 ynh_safe_rm "$install_dir/.cache"
