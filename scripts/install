@@ -69,22 +69,22 @@ pushd "$install_dir/build"
 
 popd
 
-mkdir "$install_dir/release"
-chmod -R o-rwx "$install_dir/release"
-chown -R $app:www-data "$install_dir/release"
+#mkdir "$install_dir/release"
+#chmod -R o-rwx "$install_dir/release"
+#chown -R $app:www-data "$install_dir/release"
 
-mv -f $install_dir/build/.next/standalone/* $install_dir/release
-mkdir $install_dir/release/.next
-mv -f $install_dir/build/.next/static $install_dir/release/.next/
+#mv -f $install_dir/build/.next/standalone/* $install_dir/release
+#mkdir $install_dir/release/.next
+#mv -f $install_dir/build/.next/static $install_dir/release/.next/
 
-chmod -R o-rwx "$install_dir/release"
-chown -R $app:www-data "$install_dir/release"
+#chmod -R o-rwx "$install_dir/release"
+#chown -R $app:www-data "$install_dir/release"
 
-pushd "$install_dir/release"
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" pnpm --allow-build='@prisma/engines' add dotenv chalk semver prisma@6.19.0 @prisma/adapter-pg@6.19.0
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run check-db
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run update-tracker
-popd
+# pushd "$install_dir/release"
+# 	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" pnpm --allow-build='@prisma/engines' add dotenv chalk semver prisma@6.19.0 @prisma/adapter-pg@6.19.0
+# 	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run check-db
+# 	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run update-tracker
+# popd
 
 
 #ynh_safe_rm "$install_dir/.cache"
@@ -97,7 +97,7 @@ popd
 ynh_script_progression "Starting $app's systemd service..."
 
 # Start a systemd service
-ynh_systemctl --service="$app" --action="start" --wait_until="Ready in" --log_path="systemd"
+# ynh_systemctl --service="$app" --action="start" --wait_until="Ready in" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT
