@@ -61,27 +61,21 @@ pushd "$install_dir/build"
 	
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
-	#mv public .next/standalone/
-	#mv prisma .next/standalone/
-	#mv scripts .next/standalone/
+	mv public .next/standalone/
+	mv prisma .next/standalone/
+	mv scripts .next/standalone/
+	mv generated .next/standalone/
 	#mv .next/static .next/standalone/.next
 
-	mkdir release
-
-	mv public release/public
-	mv prisma release/prisma
- 	mv scripts release/scripts
-	mv generated release/generated
-	mv .next/standalone/* release
-	mv .next/static release/.next/static
 popd
 
 mkdir "$install_dir/release"
 chmod -R o-rwx "$install_dir/release"
 chown -R $app:www-data "$install_dir/release"
 
-mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/release/.[!.]* $install_dir/release
-mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/release/* $install_dir/release
+mv -f $install_dir/build/.next/standalone/* $install_dir/release
+mkdir $install_dir/release/.next
+mv -f $install_dir/build/.next/static $install_dir/release/.next/
 
 pushd "$install_dir/release"
 	ynh_hide_warnings ynh_exec_as_app pnpm --allow-build='@prisma/engines' add dotenv NODE_ENV=productionchalk semver prisma@6.19.0 @prisma/adapter-pg@6.19.0
