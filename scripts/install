@@ -71,7 +71,7 @@ popd
 
 mkdir "$install_dir/release"
 chmod -R o-rwx "$install_dir/release"
-chown -R $app:www-data "$install_dir/release"
+chown -R $app:$app "$install_dir/release"
 
 mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
 #mkdir $install_dir/release/.next
