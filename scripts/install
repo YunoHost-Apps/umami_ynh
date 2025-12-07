@@ -81,7 +81,7 @@ mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/
 #chown -R $app:www-data "$install_dir/release"
 
 pushd "$install_dir/release"
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" pnpm --allow-build='@prisma/engines' add dotenv chalk semver prisma@6.19.0 @prisma/adapter-pg@6.19.0
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" pnpm --force --allow-build='@prisma/engines' add dotenv chalk semver prisma@6.19.0 @prisma/adapter-pg@6.19.0
 	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run check-db
 	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run update-tracker
 popd
