@@ -44,7 +44,7 @@ yunohost service add "$app" --description="Web Analytics" --log="/var/log/$app/$
 #=================================================
 # CONFIGURE THE APP
 #=================================================
-ynh_script_progression "Configuring the app..."
+ynh_script_progression "Configuring and building the app..."
 
 pushd "$install_dir/build"
 	corepack enable
@@ -82,6 +82,8 @@ popd
 
 
 ynh_safe_rm "$install_dir/.cache"
+ynh_safe_rm "$install_dir/.npm"
+ynh_safe_rm "$install_dir/.local"
 
 ynh_safe_rm "$install_dir/build"
 

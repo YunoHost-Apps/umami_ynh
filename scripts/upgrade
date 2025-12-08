@@ -26,6 +26,13 @@ then
 	ynh_die "Please upgrade to the latest 2.x release with 'yunohost app upgrade $app -u https://github.com/YunoHost-Apps/umami_ynh/tree/6dd4c32baa041b2099bdcb7e11c880433c2b35a9' , then try again"
 fi
 
+if $(ynh_app_upgrading_from_version_before_or_equal_to 2.19~ynh1)
+then
+    # build system switched from yarn to pnpm in 3.x series
+	ynh_safe_rm "$install_dir/.yarn"
+fi
+
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
@@ -101,6 +108,8 @@ pushd "$install_dir/release"
 popd
 
 ynh_safe_rm "$install_dir/.cache"
+ynh_safe_rm "$install_dir/.npm"
+ynh_safe_rm "$install_dir/.local"
 
 ynh_safe_rm "$install_dir/build"
 
