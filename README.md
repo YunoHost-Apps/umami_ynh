@@ -21,7 +21,7 @@ Simple, fast, privacy-focused alternative to Google Analytics
 
 
 ## Screenshots
-![Screenshot of Umami](./doc/screenshots/dark.png)
+![Screenshot of Umami](./doc/screenshots/screenshot.png)
 
 ## 📦 Developer info
 
