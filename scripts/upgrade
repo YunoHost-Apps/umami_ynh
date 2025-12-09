@@ -20,16 +20,18 @@ ynh_script_progression "Ensuring downward compatibility..."
 
 ynh_app_setting_set_default --key=language --value="en-US"
 
-if $(ynh_app_upgrading_from_version_before_or_equal_to 2.7.0~ynh4)
+if $(ynh_app_upgrading_from_version_before 2.19~ynh1)
 then
-	# Purge old root directory's contents
-	ynh_script_progression "Removing old files..."
-	mkdir /tmp/release
-	chmod -R o-rwx /tmp/release
-	chown -R $app:www-data /tmp/release
-	mv -f $install_dir/* $install_dir/.[!.]* /tmp/release
-	mv /tmp/release $install_dir/
+	# Ensure that the LANGUAGE env variable is set in .env file
+	ynh_die "Please upgrade to the latest 2.x release with 'yunohost app upgrade $app -u https://github.com/YunoHost-Apps/umami_ynh/tree/6dd4c32baa041b2099bdcb7e11c880433c2b35a9' , then try again"
 fi
+
+if $(ynh_app_upgrading_from_version_before_or_equal_to 2.19~ynh1)
+then
+    # build system switched from yarn to pnpm in 3.x series
+	ynh_safe_rm "$install_dir/.yarn"
+fi
+
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -70,16 +72,26 @@ yunohost service add "$app" --description="Web Analytics" --log="/var/log/$app/$
 ynh_script_progression "Configuring the app..."
 
 pushd "$install_dir/build"
-	ynh_hide_warnings ynh_exec_as_app COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install
-	ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS="--max-old-space-size=3000" yarn build
-
+	corepack enable
+    ynh_hide_warnings npm install -g corepack@latest
+    ynh_hide_warnings corepack prepare  pnpm@latest --activate
+	
+	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile --os linux --libc glibc
+	cp docker/middleware.ts src
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-db
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-tracker 
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-geo
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-app
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run check-db
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run update-tracker
+	ynh_safe_rm "$install_dir/build/node_modules/"
+	
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
-	ynh_safe_rm "node_modules/"
-	mv next.config.mjs .next/standalone/
 	mv public .next/standalone/
 	mv prisma .next/standalone/
 	mv scripts .next/standalone/
+	mv generated .next/standalone/
 	mv .next/static .next/standalone/.next
 popd
 
@@ -91,23 +103,9 @@ chown -R $app:www-data "$install_dir/release"
 
 mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
 
-pushd "$install_dir/release"
-	ynh_hide_warnings ynh_exec_as_app yarn add npm-run-all dotenv prisma
-popd
-
-if ynh_app_upgrading_from_version_before 2.18.0~ynh1; then
-    ynh_script_progression "Migrating data to 2.18.0 schema...."
-    # cf https://github.com/umami-software/umami/releases/tag/v2.18.0
-    ynh_psql_db_shell  < "../conf/2.18.0.sql"
-fi
-
-if ynh_app_upgrading_from_version_before 2.19.0~ynh1; then
-    ynh_script_progression "Migrating data to 2.19.0 schema...."
-    # cf https://github.com/umami-software/umami/releases/tag/v2.19.0
-    ynh_psql_db_shell  < "../conf/2.19.0.sql"
-fi
-
 ynh_safe_rm "$install_dir/.cache"
+ynh_safe_rm "$install_dir/.npm"
+ynh_safe_rm "$install_dir/.local"
 
 ynh_safe_rm "$install_dir/build"
 

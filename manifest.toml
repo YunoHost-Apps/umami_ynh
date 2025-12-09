@@ -7,7 +7,7 @@ name = "Umami"
 description.en = "Simple, fast, privacy-focused alternative to Google Analytics"
 description.fr = "Analyse de trafic web simple et respectueux"
 
-version = "2.19.0~ynh1"
+version = "3.0.2~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -52,8 +52,8 @@ ram.runtime = "50M"
 
     [resources.sources.main]
 
-    url = "https://github.com/mikecao/umami/archive/refs/tags/v2.19.0.tar.gz"
-    sha256 = "97b21b1fb10529edc8cd1ec38bbfd0d42d3c3a2d72944023ed6ae83e0d22d21f"
+    url = "https://github.com/mikecao/umami/archive/refs/tags/v3.0.2.tar.gz"
+    sha256 = "22011862dac5fd89bcbb9731aea8763c281749ea7a5be83f228ee94fb1463d0f"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
@@ -75,9 +75,6 @@ ram.runtime = "50M"
 
     [resources.apt]
     packages = "postgresql"
-    extras.yarn.repo = "deb https://dl.yarnpkg.com/debian/ stable main"
-    extras.yarn.key = "https://dl.yarnpkg.com/debian/pubkey.gpg"
-    extras.yarn.packages = "yarn"
 
     [resources.database]
     type = "postgresql"
