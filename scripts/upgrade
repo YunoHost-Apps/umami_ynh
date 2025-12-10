@@ -100,11 +100,13 @@ mkdir "$install_dir/release"
 chmod -R o-rwx "$install_dir/release"
 chown -R $app:www-data "$install_dir/release"
 
-mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
-
 pushd "$install_dir/release"
 	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production pnpm add --allow-build='@prisma/engines' --allow-build='@prisma/client' -P npm-run-all dotenv prisma@6.7.0
 popd
+
+
+cp -rf -t $install_dir/release $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* 
+
 
 if ynh_app_upgrading_from_version_before 2.18.0~ynh1; then
     ynh_script_progression "Migrating data to 2.18.0 schema...."
