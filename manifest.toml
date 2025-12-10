@@ -7,7 +7,7 @@ name = "Umami"
 description.en = "Simple, fast, privacy-focused alternative to Google Analytics"
 description.fr = "Analyse de trafic web simple et respectueux"
 
-version = "2.19.0~ynh1"
+version = "2.20.1~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -52,8 +52,8 @@ ram.runtime = "50M"
 
     [resources.sources.main]
 
-    url = "https://github.com/mikecao/umami/archive/refs/tags/v2.19.0.tar.gz"
-    sha256 = "97b21b1fb10529edc8cd1ec38bbfd0d42d3c3a2d72944023ed6ae83e0d22d21f"
+    url = "https://github.com/umami-software/umami/archive/refs/tags/v2.20.1.tar.gz"
+    sha256 = "d8d915e47e8f80af5ad6f47221ec2f35af83f18a5e0d0194dfea72531fd9c06e"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
