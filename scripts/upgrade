@@ -70,7 +70,10 @@ yunohost service add "$app" --description="Web Analytics" --log="/var/log/$app/$
 ynh_script_progression "Configuring the app..."
 
 pushd "$install_dir/build"
-		corepack enable
+	ynh_exec_as_app git init
+	ynh_exec_as_app git add .
+	ynh_exec_as_app git commit -m "2.20.1"
+	corepack enable
     ynh_hide_warnings npm install -g corepack@latest
     ynh_hide_warnings corepack prepare  pnpm@latest --activate
 	
