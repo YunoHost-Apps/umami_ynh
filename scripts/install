@@ -55,16 +55,14 @@ pushd "$install_dir/build"
 	corepack enable
     ynh_hide_warnings npm install -g corepack@latest
     ynh_hide_warnings corepack prepare  pnpm@latest --activate
-	
+
 	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile --os linux --libc glibc
 	cp docker/middleware.ts src
 
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-db
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-tracker 
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-docker
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-tracker
 	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-geo
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-app	
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run check-db
-	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run update-tracker
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-app
 
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
@@ -83,7 +81,7 @@ chown -R $app:www-data "$install_dir/release"
 mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
 
 pushd "$install_dir/release"
-	ynh_hide_warnings ynh_exec_as_app pnpm add npm-run-all dotenv prisma@6.7.0
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production pnpm add --allow-build='@prisma/engines' --allow-build='@prisma/client' -P npm-run-all dotenv prisma@6.7.0
 popd
 
 ynh_safe_rm "$install_dir/.cache"
