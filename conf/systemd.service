@@ -11,7 +11,7 @@ Environment=NODE_ENV=production
 Environment="PATH=__PATH_WITH_NODEJS__"
 Environment=NEXT_TELEMETRY_DISABLED=1
 Environment=PORT=__PORT__
-ExecStart=__NODEJS_DIR__/npm exec next start
+ExecStart=pnpm start-docker
 
 # Sandboxing options to harden security
 # Details for these options: https://www.freedesktop.org/software/systemd/man/systemd.exec.html
