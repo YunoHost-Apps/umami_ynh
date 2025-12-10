@@ -72,6 +72,8 @@ ynh_script_progression "Configuring the app..."
 pushd "$install_dir/build"
 	ynh_exec_as_app git init
 	ynh_exec_as_app git add .
+	ynh_exec_as_app git config --global user.email "$app@$domain"
+	ynh_exec_as_app git config --global user.name "$app"
 	ynh_exec_as_app git commit -m "2.20.1"
 	corepack enable
     ynh_hide_warnings npm install -g corepack@latest
