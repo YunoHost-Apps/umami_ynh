@@ -70,13 +70,23 @@ yunohost service add "$app" --description="Web Analytics" --log="/var/log/$app/$
 ynh_script_progression "Configuring the app..."
 
 pushd "$install_dir/build"
-	ynh_hide_warnings ynh_exec_as_app COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install
-	ynh_hide_warnings ynh_exec_as_app NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS="--max-old-space-size=3000" yarn build
+	ynh_exec_as_app git init
+	ynh_exec_as_app git add .
+	ynh_exec_as_app git config --global user.email "$app@$domain"
+	ynh_exec_as_app git config --global user.name "$app"
+	ynh_exec_as_app git commit -m "2.20.1"
+	corepack enable
+    ynh_hide_warnings npm install -g corepack@latest
+    ynh_hide_warnings corepack prepare  pnpm@latest --activate
+
+	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile --os linux --libc glibc
+	cp docker/middleware.ts src
+
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-docker
 
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
 	ynh_safe_rm "node_modules/"
-	mv next.config.mjs .next/standalone/
 	mv public .next/standalone/
 	mv prisma .next/standalone/
 	mv scripts .next/standalone/
@@ -89,11 +99,13 @@ mkdir "$install_dir/release"
 chmod -R o-rwx "$install_dir/release"
 chown -R $app:www-data "$install_dir/release"
 
-mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
-
 pushd "$install_dir/release"
-	ynh_hide_warnings ynh_exec_as_app yarn add npm-run-all dotenv prisma
+	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production pnpm add --allow-build='@prisma/engines' --allow-build='@prisma/client' -P npm-run-all dotenv prisma@6.7.0
 popd
+
+
+cp -rfp -t $install_dir/release $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* 
+
 
 if ynh_app_upgrading_from_version_before 2.18.0~ynh1; then
     ynh_script_progression "Migrating data to 2.18.0 schema...."
