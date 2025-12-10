@@ -87,7 +87,6 @@ pushd "$install_dir/build"
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
 	ynh_safe_rm "node_modules/"
-	# mv next.config.mjs .next/standalone/
 	mv public .next/standalone/
 	mv prisma .next/standalone/
 	mv scripts .next/standalone/
@@ -122,7 +121,7 @@ fi
 
 ynh_safe_rm "$install_dir/.cache"
 
-# ynh_safe_rm "$install_dir/build"
+ynh_safe_rm "$install_dir/build"
 
 #=================================================
 # START SYSTEMD SERVICE
