@@ -70,6 +70,10 @@ ram.runtime = "50M"
     script.show_tile = false
     script.allowed = "visitors"
     script.auth_header = false
+    recorder.url = "/recorder.js"
+    recorder.show_tile = false
+    recorder.allowed = "visitors"
+    recorder.auth_header = false
 
     [resources.ports]
 
