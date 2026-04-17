@@ -7,7 +7,7 @@ name = "Umami"
 description.en = "Simple, fast, privacy-focused alternative to Google Analytics"
 description.fr = "Analyse de trafic web simple et respectueux"
 
-version = "3.0.3~ynh1"
+version = "3.1.0~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -19,7 +19,7 @@ admindoc = "https://umami.is/docs/about"
 code = "https://github.com/mikecao/umami"
 
 [integration]
-yunohost = ">= 12.1.17"
+yunohost = ">= 12.1.38"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
@@ -52,8 +52,8 @@ ram.runtime = "50M"
 
     [resources.sources.main]
 
-    url = "https://github.com/mikecao/umami/archive/refs/tags/v3.0.3.tar.gz"
-    sha256 = "6abcb7412aa4812e322122dc124f907ac4edc363ff8b90991112bdf35e76d9fa"
+    url = "https://github.com/mikecao/umami/archive/refs/tags/v3.1.0.tar.gz"
+    sha256 = "8443aa513c5684144cbbe156d7303387ad1521a913fcdd0d5fe995d04d351537"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
@@ -70,6 +70,10 @@ ram.runtime = "50M"
     script.show_tile = false
     script.allowed = "visitors"
     script.auth_header = false
+    recorder.url = "/recorder.js"
+    recorder.show_tile = false
+    recorder.allowed = "visitors"
+    recorder.auth_header = false
 
     [resources.ports]
 
