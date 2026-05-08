@@ -47,9 +47,7 @@ yunohost service add "$app" --description="Web Analytics" --log="/var/log/$app/$
 ynh_script_progression "Configuring and building the app..."
 
 pushd "$install_dir/build"
-	corepack enable
-    ynh_hide_warnings npm install -g corepack@latest
-    ynh_hide_warnings corepack prepare  pnpm@latest --activate
+	ynh_hide_warnings corepack enable && corepack prepare pnpm@latest-10 --activate
 	
 	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile --os linux --libc glibc
 	cp docker/proxy.ts src
@@ -76,7 +74,6 @@ chmod -R o-rwx "$install_dir/release"
 chown -R $app:$app "$install_dir/release"
 
 mv -f $install_dir/build/.next/standalone/* $install_dir/build/.next/standalone/.[!.]* $install_dir/release
-
 
 ynh_safe_rm "$install_dir/.cache"
 ynh_safe_rm "$install_dir/.npm"
