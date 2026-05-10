@@ -49,7 +49,7 @@ ynh_script_progression "Configuring and building the app..."
 pushd "$install_dir/build"
 	corepack enable
     ynh_hide_warnings npm install -g corepack@latest
-    ynh_hide_warnings corepack prepare  pnpm@latest --activate
+    ynh_hide_warnings ynh_exec_as_app corepack prepare pnpm@latest-10 --activate
 	
 	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile --os linux --libc glibc
 	cp docker/proxy.ts src
