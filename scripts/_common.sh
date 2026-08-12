@@ -43,12 +43,12 @@ pushd "$install_dir/build"
 	
 	# Actual app is a subset of release assets
 	# List of deps based on Dockerfile: https://github.com/umami-software/umami/blob/master/Dockerfile
-	rsync -a --remove-source-files public .next/standalone/
-	rsync -a --remove-source-files prisma .next/standalone/
-    rsync -a --remove-source-files prisma.config.ts .next/standalone/
-	rsync -a --remove-source-files scripts .next/standalone/
-	rsync -a --remove-source-files generated .next/standalone/
-	rsync -a --remove-source-files .next/static .next/standalone/.next/
+	rsync -a public .next/standalone/
+	rsync -a prisma .next/standalone/
+    rsync -a prisma.config.ts .next/standalone/
+	rsync -a scripts .next/standalone/
+	rsync -a generated .next/standalone/
+	rsync -a .next/static .next/standalone/.next/
 popd
 
 mkdir "$install_dir/release"
@@ -63,12 +63,12 @@ pushd "$install_dir/release"
         @prisma/adapter-pg@${prisma_version}
 popd
 
-rsync -a --remove-source-files  $install_dir/build/.next/standalone/ $install_dir/release
+rsync -a  $install_dir/build/.next/standalone/ $install_dir/release
 
 
-ynh_safe_rm "$install_dir/.cache"
-ynh_safe_rm "$install_dir/.npm"
-ynh_safe_rm "$install_dir/.local"
+# ynh_safe_rm "$install_dir/.cache"
+# ynh_safe_rm "$install_dir/.npm"
+# ynh_safe_rm "$install_dir/.local"
 
-ynh_safe_rm "$install_dir/build"
+# ynh_safe_rm "$install_dir/build"
 }
