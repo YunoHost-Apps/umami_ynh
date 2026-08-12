@@ -18,6 +18,12 @@ ynh_script_progression "Setting up source files..."
 ynh_setup_source --dest_dir="$install_dir/build"
 
 chown -R "$app:$app" "$install_dir/build"
+ynh_script_progression "Updating $app's configuration files..."
+
+ynh_config_add --template=".env" --destination="$install_dir/build/.env"
+
+chmod 650 "$install_dir/build/.env"
+
 corepack enable
 ynh_hide_warnings npm install -g corepack@latest
 ynh_hide_warnings ynh_exec_as_app corepack prepare pnpm@${pnpm_version} --activate
