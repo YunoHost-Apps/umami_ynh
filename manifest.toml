@@ -78,7 +78,7 @@ ram.runtime = "50M"
     [resources.ports]
 
     [resources.apt]
-    packages = "postgresql"
+    packages = [ "postgresql", "rsync" ]
 
     [resources.database]
     type = "postgresql"
