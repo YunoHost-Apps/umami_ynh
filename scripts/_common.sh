@@ -12,13 +12,11 @@ prisma_version="7.9.1"
 #=================================================
 
 myynh_build() {
-ynh_script_progression "Setting up source files..."
 
 # Download, check integrity, uncompress and patch the source from manifest.toml
 ynh_setup_source --dest_dir="$install_dir/build"
 
 chown -R "$app:$app" "$install_dir/build"
-ynh_script_progression "Updating $app's configuration files..."
 
 ynh_config_add --template=".env" --destination="$install_dir/build/.env"
 
