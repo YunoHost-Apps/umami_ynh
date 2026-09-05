@@ -22,12 +22,11 @@ ynh_config_add --template=".env" --destination="$install_dir/build/.env"
 
 chmod 650 "$install_dir/build/.env"
 
-corepack enable
-ynh_hide_warnings npm install -g corepack@latest
-ynh_hide_warnings ynh_exec_as_app corepack prepare pnpm@${pnpm_version} --activate
-
 pushd "$install_dir/build"
-	
+    corepack enable
+    ynh_hide_warnings npm install -g corepack@latest
+    ynh_hide_warnings ynh_exec_as_app corepack prepare pnpm@${pnpm_version} --activate
+
 	ynh_hide_warnings ynh_exec_as_app pnpm install --frozen-lockfile --os linux --libc glibc
 	cp docker/proxy.ts src
 	ynh_hide_warnings ynh_exec_as_app env NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 DATABASE_URL="postgresql://$db_user:$db_pwd@localhost:5432/$db_name" npm run build-db
