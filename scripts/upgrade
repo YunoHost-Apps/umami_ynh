@@ -33,6 +33,16 @@ then
 	ynh_safe_rm "$install_dir/.yarn"
 fi
 
+if [ -z "${app_secret:-}" ]; then
+	app_secret=$(ynh_string_random --length=32)
+	ynh_app_setting_set --key=app_secret --value=$app_secret
+fi
+
+if [ -z "${two_factor_encryption_key:-}" ]; then
+	two_factor_encryption_key=$(ynh_string_random --length=32)
+	ynh_app_setting_set --key=two_factor_encryption_key --value=$two_factor_encryption_key
+fi
+
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
