@@ -31,8 +31,8 @@ yunohost service add "$app" --description="Web Analytics" --log="/var/log/$app/$
 #=================================================
 ynh_script_progression "Configuring and building the app..."
 
-app_secret=$(ynh_string_random --length=32)
-two_factor_encryption_key=$(ynh_string_random --length=32)
+app_secret=$(openssl rand -hex 32)
+two_factor_encryption_key=$(openssl rand -hex 32)
 ynh_app_setting_set --key=app_secret --value=$app_secret
 ynh_app_setting_set --key=two_factor_encryption_key --value=$two_factor_encryption_key
 
