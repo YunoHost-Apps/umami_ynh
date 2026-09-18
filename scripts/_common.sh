@@ -4,8 +4,8 @@
 # COMMON VARIABLES
 #=================================================
 
-pnpm_version="11.21.0"
-prisma_version="7.9.1"
+pnpm_version="12.3.4"
+prisma_version="7.10.0"
 
 #=================================================
 # PERSONAL HELPERS
